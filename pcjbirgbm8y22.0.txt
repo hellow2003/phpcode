@@ -1,0 +1,56 @@
+Hostname      : kali
+User          : kali
+User ID       : uid=1000(kali) gid=1000(kali) groups=1000(kali),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),100(users),101(netdev),116(bluetooth),121(wireshark),123(lpadmin),129(scanner),134(kaboxer),984(ollama)
+OS            : Linux kali 6.12.33+kali-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.12.33-1kali1 (2025-06-25) x86_64 GNU/Linux
+
+--- OS RELEASE ---
+PRETTY_NAME="Kali GNU/Linux Rolling"
+NAME="Kali GNU/Linux"
+VERSION_ID="2025.4"
+VERSION="2025.4"
+VERSION_CODENAME=kali-rolling
+ID=kali
+ID_LIKE=debian
+HOME_URL="https://www.kali.org/"
+SUPPORT_URL="https://forums.kali.org/"
+BUG_REPORT_URL="https://bugs.kali.org/"
+ANSI_COLOR="1;31"
+
+--- CPU INFO ---
+model name	: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
+
+--- MEMORY ---
+               total        used        free      shared  buff/cache   available
+Mem:           7.5Gi       4.2Gi       568Mi       577Mi       3.7Gi       3.4Gi
+Swap:          6.0Gi       256Ki       6.0Gi
+
+--- DISK ---
+Filesystem      Size  Used Avail Use% Mounted on
+udev            3.8G     0  3.8G   0% /dev
+tmpfs           773M  1.6M  772M   1% /run
+/dev/sda1       234G  189G   34G  86% /
+tmpfs           3.8G  5.8M  3.8G   1% /dev/shm
+none            1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+tmpfs           3.8G  183M  3.6G   5% /tmp
+tmpfs           773M  168K  773M   1% /run/user/1000
+none            1.0M     0  1.0M   0% /run/credentials/getty@tty1.service
+
+--- NETWORK ---
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: eth0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether 58:8a:5a:0b:4f:93 brd ff:ff:ff:ff:ff:ff
+3: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 44:03:2c:8a:14:20 brd ff:ff:ff:ff:ff:ff
+    inet 10.211.230.49/24 brd 10.211.230.255 scope global dynamic noprefixroute wlan0
+       valid_lft 2429sec preferred_lft 2429sec
+    inet6 2402:3a80:443b:6c80:51d6:cdba:d9ec:5512/64 scope global temporary dynamic 
+       valid_lft 7052sec preferred_lft 7052sec
+    inet6 2402:3a80:443b:6c80:4603:2cff:fe8a:1420/64 scope global dynamic mngtmpaddr noprefixroute 
+       valid_lft 7052sec preferred_lft 7052sec
+    inet6 fe80::4603:2cff:fe8a:1420/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
