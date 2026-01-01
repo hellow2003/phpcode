@@ -1,1 +1,1 @@
-start "" python "%TEMP%\list.py"
+start cmd /k python "%TEMP%\list.py"
