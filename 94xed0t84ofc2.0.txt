@@ -1,0 +1,19 @@
+Hostname : DESKTOP-3V0DPB8
+User : window (DESKTOP-3V0DPB8)
+User Profile : C:\Users\window
+--- OS INFO ---
+Product: Windows 10 Home
+Version: 2009
+Build: 19045
+--- CPU INFO ---
+Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
+Cores: 2 Logical: 2
+--- MEMORY ---
+Total Physical Memory: 4.57 GB
+Free Physical Memory: 2.22 GB
+--- DISK ---
+ C:\ Used: 29.65 GB Free: 154.16 GB
+ E:\ Used: 0.05 GB Free: 0.00 GB
+ Z:\ Used: 204.24 GB Free: 29.43 GB
+--- NETWORK ---
+ Ethernet: 10.0.2.15/24
