@@ -1,5 +1,3 @@
 1.1.3
-
 PS|New-Item "$env:USERPROFILE\multi1.txt" -ItemType File -Force; "मल्टी PS 1" | Out-File "$env:USERPROFILE\multi1.txt"; New-Item "$env:USERPROFILE\multi2.txt" -ItemType File -Force; "मल्टी PS 2" | Out-File "$env:USERPROFILE\multi2.txt"
-
 CM|echo मल्टी CMD 1 > "%USERPROFILE%\multi_cmd1.txt" & echo मल्टी CMD 2 > "%USERPROFILE%\multi_cmd2.txt"
