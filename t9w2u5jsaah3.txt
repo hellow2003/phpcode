@@ -1,3 +1,0 @@
-1.2
-PS| "Hello from PS" | Out-File "ps2.txt" -Encoding UTF8
-CM| echo Hello from CMD > cmd2.txt

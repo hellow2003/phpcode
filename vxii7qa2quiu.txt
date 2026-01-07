@@ -1,8 +1,0 @@
-1.1.3
-New-Item -Path $env:TEMP -Name "mixed_ps_no_prefix.txt" -ItemType File -Force -Value "Normal PS command without prefix - $(Get-Date)"
-PS|Write-Output "This is PS with prefix" | Out-File "$env:TEMP\mixed_ps_with_prefix.txt"
-Get-Service | Where Status -eq Running | Select -First 10 Name, Status | Format-Table | Out-File "$env:TEMP\mixed_running_services.txt"
-CM|echo Mixed Test: CMD part starting
-CM|echo Mixed CMD success at %DATE% %TIME% > "%TEMP%\mixed_cmd_success.txt"
-CM|systeminfo | find "OS Name" > "%TEMP%\mixed_os_name.txt"
-CM|echo %USERNAME% has %PROCESSOR_ARCHITECTURE% architecture > "%TEMP%\mixed_cmd_user.txt"
