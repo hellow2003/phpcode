@@ -62,7 +62,7 @@ function Download-File {
                 Write-Host "Failed to download $Target from $url (HTTP $($response.StatusCode))"
             }
         } catch {
-            Write-Host "Error downloading $Target from $url: $_"
+            Write-Host "Error downloading ${Target} from ${url}: $_"
         }
     }
     return $false
