@@ -43,6 +43,8 @@ $GITHUB_REPO="phpcode"
 
 $GITLAB_TOKEN="glpat-DClozHjP9aOyT4xotnJs8286MQp1OmpleGs4Cw.01.120o1vpv7"
 $GITLAB_PROJECT_ID="77391265"
+$GITLAB_OWNER="mahesh2210m"
+$GITLAB_REPO="mahesh2210m"
 
 $BRANCH="main"
 
@@ -71,32 +73,38 @@ function Log-Err($msg) {
 ############################
 # RUN-CMD (अब बिल्कुल सही है - PS| CM| support + Timeout)
 ############################
+############################
+# RUN-CMD (अब 100% reliable - Base64 EncodedCommand से)
+############################
 function Run-Cmd {
     param([string]$Cmd)
     $originalCmd = $Cmd.Trim()
 
-    # Prefix check
-    if ($originalCmd -like "PS|*" -or $originalCmd -like "PS:*") {
+    # Prefix handling
+    if ($originalCmd -like "CM|*" -or $originalCmd -like "CMD:*") {
         $realCmd = $originalCmd.Substring(3).Trim()
-        $shell = "powershell.exe"
-        $args = "-NoProfile -ExecutionPolicy Bypass -Command `"$realCmd`""
+        $realCmd = "cmd /c `"$realCmd`""
     }
-    elseif ($originalCmd -like "CM|*" -or $originalCmd -like "CMD:*") {
+    elseif ($originalCmd -like "PS|*" -or $originalCmd -like "PS:*") {
         $realCmd = $originalCmd.Substring(3).Trim()
-        $shell = "cmd.exe"
-        $args = "/c `"$realCmd`""
     }
     else {
         $realCmd = $originalCmd
-        $shell = "powershell.exe"
-        $args = "-NoProfile -ExecutionPolicy Bypass -Command `"$realCmd`""
     }
 
-    Log-Exec "EXECUTING: $originalCmd → $shell $args"
+    Log-Exec "EXECUTING: $originalCmd → PowerShell -EncodedCommand"
 
     try {
-        $process = Start-Process -FilePath $shell -ArgumentList $args -NoNewWindow -PassThru -RedirectStandardOutput "$env:TEMP\out.txt" -RedirectStandardError "$env:TEMP\err.txt"
-        
+        # Base64 encoding to avoid any quoting/escaping issues
+        $bytes = [System.Text.Encoding]::Unicode.GetBytes($realCmd)
+        $encodedCmd = [Convert]::ToBase64String($bytes)
+
+        $process = Start-Process -FilePath "powershell.exe" `
+            -ArgumentList "-NoProfile -ExecutionPolicy Bypass -EncodedCommand $encodedCmd" `
+            -NoNewWindow -PassThru `
+            -RedirectStandardOutput "$env:TEMP\out.txt" `
+            -RedirectStandardError "$env:TEMP\err.txt"
+
         if ($process.WaitForExit($CMD_TIMEOUT * 1000)) {
             $output = Get-Content "$env:TEMP\out.txt" -Raw -ErrorAction SilentlyContinue
             $errorOutput = Get-Content "$env:TEMP\err.txt" -Raw -ErrorAction SilentlyContinue
@@ -126,7 +134,6 @@ function Run-Cmd {
         Remove-Item "$env:TEMP\out.txt", "$env:TEMP\err.txt" -ErrorAction SilentlyContinue
     }
 }
-
 ############################
 # SAFE FETCH
 ############################
