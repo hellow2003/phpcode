@@ -1,4 +1,0 @@
-1.3
-echo "Hello World" > ~/filee21.txt
-echo "Hello World" > ~/filee22.txt
-
