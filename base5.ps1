@@ -49,23 +49,15 @@ $VUrls = @(
 
 )
 # Download Function with Fallback
-function Download-File {
-    param([string]$Target, [array]$Urls)
-
-    foreach ($url in $Urls) {
-        try {
-            $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 15 -MaximumRedirection 0 -ErrorAction Stop
-            if ($response.StatusCode -eq 200) {
-                $response.Content | Set-Content -Encoding Byte -Path $Target
-                return $true
-            } else {
-                Write-Host "Failed to download $Target from $url (HTTP $($response.StatusCode))"
-            }
-        } catch {
-            Write-Host "Error downloading ${Target} from ${url}: $_"
-        }
+function Safe-Fetch {
+    param([string]$Url, [hashtable]$Headers)
+    try {
+        $resp = Invoke-WebRequest -Uri $Url -Headers $Headers -TimeoutSec $CURL_TIMEOUT -UseBasicParsing
+        return $resp.Content
+    } catch {
+        Log-Err "Fetch failed: $Url - $($_.Exception.Message)"
+        return $null
     }
-    return $false
 }
 
 
