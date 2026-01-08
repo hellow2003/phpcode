@@ -113,7 +113,7 @@ if (Test-Path $Script1) {
     Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$Script1`"" -WindowStyle Hidden
 }
 
-Start-Sleep -Seconds 10
+Start-Sleep -Seconds 15
 
 if (Test-Path $Script3) {
     Start-Process "wscript.exe" -ArgumentList "`"$Script3`"" -WindowStyle Hidden
