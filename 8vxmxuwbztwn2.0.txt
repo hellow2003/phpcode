@@ -1,0 +1,9 @@
+Hostname2 : WIN-L8KTRUD74H7
+User2 : Administrator
+--- OS INFO ---
+Product: Windows Server 2019 Standard Evaluation
+--- CPU INFO ---
+Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz | Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz | 
+--- MEMORY ---
+Total: 4 GB
+Free: 3 GB
