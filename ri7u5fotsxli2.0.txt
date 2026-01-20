@@ -1,0 +1,9 @@
+Hostname2 : DESKTOP-LCRAPCD
+User2 : mahes
+--- OS INFO ---
+Product: Windows 11 Home
+--- CPU INFO ---
+Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz | Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz | 
+--- MEMORY ---
+Total: 4 GB
+Free: 1 GB
