@@ -1,9 +1,0 @@
-Hostname : DESKTOP-3V0DPB8
-User : window
---- OS INFO ---
-Product: Windows 10 Home
---- CPU INFO ---
-Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz | Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz | 
---- MEMORY ---
-Total: 3 GB
-Free: 1 GB
