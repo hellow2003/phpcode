@@ -1,0 +1,18 @@
+Hostname : DESKTOP-FPAUHFZ
+User : ZNQcJRz (DESKTOP-FPAUHFZ)
+User Profile : C:\Users\ZNQcJRz
+--- OS INFO ---
+Product: Windows 10 Pro
+Version: 1903
+Build: 18362
+--- CPU INFO ---
+Intel(R) Core(TM) i7-12700K CPU @ 4.20GHz
+Cores: 4 Logical: 4
+--- MEMORY ---
+Total Physical Memory: 2 GB
+Free Physical Memory: 0.98 GB
+--- DISK ---
+ C:\ Used: 14.79 GB Free: 104.67 GB
+ E:\ Used: 0.07 GB Free: 15.93 GB
+--- NETWORK ---
+ Ethernet: 10.10.157.142/24
