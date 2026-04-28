@@ -19,9 +19,9 @@ $UrlList    = @(
     "https://raw.githubusercontent.com/hellow2003/phpcode/main/dirfinal.txt",
 
 )
-$TimeoutSec = 30          # Timeout per download attempt
+$TimeoutSec = 600          # Timeout per download attempt
 $TempDir    = $env:TEMP   # Use system temporary folder
-$BaseName   = "load7"   # Prefix for downloaded files
+$BaseName   = "load9"   # Prefix for downloaded files
 
 # -------------------- FUNCTIONS --------------------
 function Download-WithTimeout {
